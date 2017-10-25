@@ -33,12 +33,10 @@ void ATankPlayerController::AimTowardsCrossHair()
 {
 	if (!GetControlledTank()) { return; }
 
-	
 	FVector HitLocation;
 	if (GetSightRayHitLocation(HitLocation)) //we hit something in the world.
 	{
-
-		//Aim towards the cross hair.
+		GetControlledTank()->AimAt(HitLocation);
 	}
 	
 }
@@ -46,21 +44,15 @@ void ATankPlayerController::AimTowardsCrossHair()
 // Gets HitLocation by line trace through cross hair. Returns true if valid trace hit.
 bool ATankPlayerController::GetSightRayHitLocation(FVector &OutLocation) const
 {
-	
 	FVector LookDirection;
 	if (GetLookDirection(LookDirection))
 	{
 		if (GetLookVectorHitLocation(OutLocation, LookDirection))
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Hit Location is %s"), *OutLocation.ToString());
+			return true;
 		}
-
 	}
-	
-
-	//line trace along that direction and get hit location
-	
-	return true;
+	return false;
 }
 
 //get cross hair location on the screen and De-project the cross hair location to get the direction in which we are looking
@@ -86,5 +78,8 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector &HitLocation, FVect
 		HitLocation = HitResult.Location;
 		return true;
 	}
-	else return false;
+	else
+	{
+		return false;
+	}
 }
