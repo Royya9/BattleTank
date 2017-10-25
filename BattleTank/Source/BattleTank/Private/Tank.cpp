@@ -1,6 +1,8 @@
 // Free to Play. By SoNa Games
 
 #include "Tank.h"
+#include "TankAimingComponent.h"
+#include "TankBarrel.h"
 
 
 // Sets default values
@@ -39,7 +41,7 @@ void ATank::AimAt(FVector HitLocation)
 	TankAimingComponent->AimingAtLocation(HitLocation, LaunchSpeed);
 }
 
-void ATank::SetBarrelRef(UStaticMeshComponent* BarrelToSet)
+void ATank::SetBarrelRef(UTankBarrel* BarrelToSet)
 {
 	TankAimingComponent->SetBarrelRef(BarrelToSet);
 }
