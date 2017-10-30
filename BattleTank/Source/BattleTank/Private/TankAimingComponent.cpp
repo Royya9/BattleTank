@@ -27,7 +27,7 @@ void UTankAimingComponent::AimingAtLocation(FVector AimLocation, float LaunchSpe
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
 	// Calculate OutLaunchVelocity
 	
-	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(this, OutLaunchVelocity, StartLocation, AimLocation, LaunchSpeed, false, 0, 0, ESuggestProjVelocityTraceOption::OnlyTraceWhileAscending, FCollisionResponseParams::DefaultResponseParam, TArray<AActor*>(), false);
+	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(this, OutLaunchVelocity, StartLocation, AimLocation, LaunchSpeed, false, 0, 0, ESuggestProjVelocityTraceOption::DoNotTrace, FCollisionResponseParams::DefaultResponseParam, TArray<AActor*>(), false);
 
 	if (bHaveAimSolution)
 	{
@@ -67,14 +67,5 @@ void UTankAimingComponent::MoveBarrel(FVector AimDirection)
 //	UE_LOG(LogTemp, Warning, TEXT("%f : Aim Direction : %f"), Time, DeltaRotation.Pitch);
 }
 
-void UTankAimingComponent::RotateTurret(FVector AimDirection)
-{
-	FRotator TurretRotation = Turret->GetForwardVector().Rotation();
-	FRotator AimRotation = AimDirection.Rotation();
-	FRotator DeltaRotation = AimRotation - TurretRotation;
-	Turret->Rotate(DeltaRotation.Yaw);
 
-// 		float Time = GetWorld()->GetTimeSeconds();
-// 		UE_LOG(LogTemp, Warning, TEXT("%f : Aim Rotation : %f"), Time, DeltaRotation.Yaw);
-}
 
