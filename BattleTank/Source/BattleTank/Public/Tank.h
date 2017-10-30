@@ -26,8 +26,6 @@ protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -37,8 +35,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Setup")
 	void SetBarrelRef(UTankBarrel* BarrelToSet);
 
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void SetTurretRef(UTankTurret* TurretToSet);
+
 private:
 
 	UPROPERTY(EditAnywhere, Category = "Firing")
-	float LaunchSpeed = 100000.f; // TODO find sensible default value
+	float LaunchSpeed = 100000; // TODO find sensible default value
 };
