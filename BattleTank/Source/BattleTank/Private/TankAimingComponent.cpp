@@ -38,7 +38,7 @@ void UTankAimingComponent::AimingAtLocation(FVector AimLocation, float LaunchSpe
 	if (!bHaveAimSolution)
 	{
 		//float Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT(" Barrel is not Aiming"));
+		//UE_LOG(LogTemp, Warning, TEXT(" Barrel is not Aiming"));
 	}
 
 }
