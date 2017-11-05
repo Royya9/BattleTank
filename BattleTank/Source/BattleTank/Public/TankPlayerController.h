@@ -6,7 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h"
 
-class ATank;
+
 class UTankAimingComponent;
 
 /**
@@ -26,9 +26,6 @@ public:
 
 protected:
 
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	ATank* GetControlledTank() const;
-
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 	void FoundAimingComponent(UTankAimingComponent* AimCompRef);
 
@@ -42,6 +39,8 @@ private:
 
 	bool GetLookVectorHitLocation(FVector &HitLocation, FVector LookDirection) const;
 
+	UTankAimingComponent* AimingComponent = nullptr;
+
 	UPROPERTY(EditDefaultsOnly)
 	float CrossHairLocationX = 0.5f;
 
@@ -50,4 +49,5 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	float TankRange = 100000;
+
 };

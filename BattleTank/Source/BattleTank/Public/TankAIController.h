@@ -6,6 +6,7 @@
 #include "AIController.h"
 #include "TankAIController.generated.h"
 
+class UTankAimingComponent;
 
 /**
  * 
@@ -23,5 +24,7 @@ public:
 private:
 
 	float AcceptanceRadius = 3000.f;
-		
+
+	UTankAimingComponent* AimingComponent = nullptr;
+
 };
