@@ -3,6 +3,7 @@
 #include "TankPlayerController.h"
 #include "Engine/World.h"
 #include "Tank.h"
+#include "TankAimingComponent.h"
 
 
 
@@ -10,7 +11,11 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GetControlledTank();
+	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	if (ensure(AimingComponent))
+	{
+		FoundAimingComponent(AimingComponent);
+	}
 }
 
 void ATankPlayerController::Tick(float DeltaSeconds)
@@ -24,16 +29,12 @@ ATank* ATankPlayerController::GetControlledTank() const
 {
 	ATank* MyTank = nullptr;
 	MyTank = Cast<ATank>(GetPawn());
-	if (!MyTank) 
-	{
-		UE_LOG(LogTemp, Error, TEXT("Did not find MyTank. It is nullptr."));
-	}
 	return MyTank;
 }
 
 void ATankPlayerController::AimTowardsCrossHair()
 {
-	if (!GetControlledTank()) { return; }
+	if (!ensure(GetControlledTank())) { return; }
 
 	FVector HitLocation;
 	if (GetSightRayHitLocation(HitLocation)) //we hit something in the world.
@@ -70,8 +71,6 @@ bool ATankPlayerController::GetLookDirection(FVector &LookDirection) const
 bool ATankPlayerController::GetLookVectorHitLocation(FVector &HitLocation, FVector LookDirection) const
 {
 	FHitResult HitResult;
-//	FCollisionQueryParams CQP;
-//	CQP.AddIgnoredActor(this->GetPawn());
 	FVector StartTrace = PlayerCameraManager->GetCameraLocation();
 	FVector EndTrace = LookDirection*TankRange + StartTrace;
 

@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-
 #include "Tank.generated.h"
 
 class UTankAimingComponent;
@@ -25,9 +24,6 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UTankAimingComponent* TankAimingComponent = nullptr;
-
-
 public:	
 
 	// Called to bind functionality to input
@@ -35,14 +31,12 @@ public:
 
 	void AimAt(FVector HitLocation);
 	
-	UFUNCTION(BlueprintCallable, Category="Setup")
-	void SetBarrelRef(UTankBarrel* BarrelToSet);
-
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void SetTurretRef(UTankTurret* TurretToSet);
-
 	UFUNCTION(BlueprintCallable, Category = "Firing")
 	void Fire();
+
+	UPROPERTY(BlueprintReadOnly)
+	UTankAimingComponent* TankAimingComponent = nullptr;
+
 
 private:
 
