@@ -2,7 +2,6 @@
 
 #include "Projectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"
-#include "Engine/World.h"
 
 
 // Sets default values
@@ -34,6 +33,5 @@ void AProjectile::LaunchProjectile(float Speed)
 {
 	ProjectileMovement->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);
 	ProjectileMovement->Activate(true);
-	float Time = GetWorld()->GetTimeSeconds();
 }
 

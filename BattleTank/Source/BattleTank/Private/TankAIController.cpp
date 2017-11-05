@@ -1,8 +1,8 @@
 // Free to Play. By SoNa Games.
 
 #include "TankAIController.h"
-#include "Engine/World.h"
 #include "TankAimingComponent.h"
+#include "Engine/World.h"
 
 void ATankAIController::Tick(float DeltaSeconds)
 {
@@ -17,6 +17,6 @@ void ATankAIController::Tick(float DeltaSeconds)
 	MoveToActor(PlayerTank, AcceptanceRadius);
 	if (!ensure(AimingComponent)) { return; }
 	AimingComponent->AimAt(PlayerTank->GetActorLocation());
-//	MyTank->Fire();
+//	AimingComponent->Fire();
 	
 }
