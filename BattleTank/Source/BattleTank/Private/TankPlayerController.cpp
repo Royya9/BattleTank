@@ -24,10 +24,13 @@ void ATankPlayerController::Tick(float DeltaSeconds)
 
 void ATankPlayerController::AimTowardsCrossHair()
 {
+	if (!GetPawn()) { return; }
 	AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent)) { return; }
 	FVector HitLocation;
-	if (GetSightRayHitLocation(HitLocation)) //we hit something in the world.
+	bool bGetHitLocation = GetSightRayHitLocation(HitLocation);
+//	UE_LOG(LogTemp, Warning, TEXT("bGetHitLocation = %i"), bGetHitLocation);
+	if (bGetHitLocation) //we hit something in the world.
 	{
 		AimingComponent->AimAt(HitLocation);
 	}
@@ -40,10 +43,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector &OutLocation) const
 	FVector LookDirection;
 	if (GetLookDirection(LookDirection))
 	{
-		if (GetLookVectorHitLocation(OutLocation, LookDirection))
-		{
-			return true;
-		}
+		return GetLookVectorHitLocation(OutLocation, LookDirection);
 	}
 	return false;
 }

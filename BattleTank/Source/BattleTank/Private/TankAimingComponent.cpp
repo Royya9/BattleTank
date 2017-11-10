@@ -16,8 +16,21 @@ UTankAimingComponent::UTankAimingComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
+void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
+{
+	Barrel = BarrelToSet;
+	Turret = TurretToSet;
+}
+
+void UTankAimingComponent::BeginPlay()
+{
+	Super::BeginPlay();
+	LastFiredTime = GetWorld()->GetTimeSeconds();
+}
+
 void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
 {
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	if ((GetWorld()->GetTimeSeconds() - LastFiredTime) < ReloadTime)
 	{
 		FiringState = EFiringState::Reloading;
@@ -32,16 +45,9 @@ void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickTy
 	}
 }
 
-void UTankAimingComponent::BeginPlay()
+EFiringState UTankAimingComponent::GetFiringState() const
 {
-	Super::BeginPlay();
-	LastFiredTime = GetWorld()->GetTimeSeconds();
-}
-
-void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
-{
-	Barrel = BarrelToSet;
-	Turret = TurretToSet;
+	return FiringState;
 }
 
 void UTankAimingComponent::AimAt(FVector AimLocation)
@@ -68,7 +74,6 @@ void UTankAimingComponent::AimAt(FVector AimLocation)
 
 }
 
-
 void UTankAimingComponent::MoveBarrel()
 {
 
@@ -76,13 +81,14 @@ void UTankAimingComponent::MoveBarrel()
 
 	FRotator BarrelRotation = Barrel->GetForwardVector().Rotation();
 	FRotator AimRotation = AimDirection.Rotation();
-	FRotator DeltaRotation = AimRotation - BarrelRotation;
-	Barrel->Elevate(DeltaRotation.Pitch); 
-	Turret->Rotate(DeltaRotation.Yaw);
+	FRotator DeltaRotator = AimRotation - BarrelRotation;
+	Barrel->Elevate(DeltaRotator.GetNormalized().Pitch); 
+	Turret->Rotate(DeltaRotator.GetNormalized().Yaw);
 }
 
 bool UTankAimingComponent::IsBarrelMoving()
 {
+	if (!ensure(Barrel)) { return false; }
 	if (AimDirection.Equals(Barrel->GetForwardVector().GetSafeNormal(), 0.01f)) { return false; }
 	else return true;
 }
@@ -102,6 +108,3 @@ void UTankAimingComponent::Fire()
 		LastFiredTime = GetWorld()->GetTimeSeconds();
 	}
 }
-
-
-
