@@ -3,6 +3,18 @@
 #include "TankPlayerController.h"
 #include "TankAimingComponent.h"
 #include "Engine/World.h"
+#include "Tank.h"
+
+void ATankPlayerController::SetPawn(APawn* InPawn)
+{
+	Super::SetPawn(InPawn);
+	if (InPawn)
+	{
+		auto PlayerTank = Cast<ATank>(InPawn);
+		if (!ensure(PlayerTank)) { return; }
+		PlayerTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnTankDeath);
+	}
+}
 
 
 void ATankPlayerController::BeginPlay()
@@ -64,7 +76,7 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector &HitLocation, FVect
 	FVector StartTrace = PlayerCameraManager->GetCameraLocation();
 	FVector EndTrace = LookDirection*TankRange + StartTrace;
 
-	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartTrace, EndTrace, ECC_Visibility))
+	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartTrace, EndTrace, ECC_Camera))
 	{
 		HitLocation = HitResult.Location;
 		return true;
@@ -73,4 +85,9 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector &HitLocation, FVect
 	{
 		return false;
 	}
+}
+
+void ATankPlayerController::OnTankDeath()
+{
+	StartSpectatingOnly();
 }
