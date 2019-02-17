@@ -3,4 +3,4 @@ An Open world Tank game with enhanced AI with custom navmesh done with Unreal En
 
 Designed and Distributed for free along with Source Code by -- SoNa Games --
 
-(SoNa is a pseudonym which stands for SOundarya (mywife) and NAveen)
+(SoNa (which means Gold in Hindi) is a pseudonym which stands for SOundarya (mywife) and NAveen)
